@@ -7,20 +7,20 @@ const float basicMPU6050<TEMPLATE_INPUTS>
 template<TEMPLATE_TYPE_INPUTS>
 const float basicMPU6050<TEMPLATE_INPUTS>
 ::ACCEL_LBS = AFS_SEL < 0 || AFS_SEL >  3 ? 1         : 
-					   1.0/( AFS_SEL == 0 ? 16384.0   : 
-						     AFS_SEL == 1 ? 8192.0    :
-						     AFS_SEL == 2 ? 4096.0    :
-											2048.0    );
+                       1.0/( AFS_SEL == 0 ? 16384.0   : 
+                             AFS_SEL == 1 ? 8192.0    :
+                             AFS_SEL == 2 ? 4096.0    :
+                                            2048.0    );
 template<TEMPLATE_TYPE_INPUTS>
 const float basicMPU6050<TEMPLATE_INPUTS>
 ::GYRO_LBS = FS_SEL < 0 || FS_SEL >  3 ? 1      :
-			  (PI/180.0)/( FS_SEL == 0 ? 131.0  :
-						   FS_SEL == 1 ? 65.5   :
-						   FS_SEL == 2 ? 32.8   :
-										 16.4   );
+              (PI/180.0)/( FS_SEL == 0 ? 131.0  :
+                           FS_SEL == 1 ? 65.5   :
+                           FS_SEL == 2 ? 32.8   :
+                                         16.4   );
 
 //----------------- I2C communication -----------------
-										 
+                                         
 template<TEMPLATE_TYPE_INPUTS>
 void basicMPU6050<TEMPLATE_INPUTS>
 ::setRegister( uint8_t reg, uint8_t mode ) {
@@ -52,14 +52,14 @@ void basicMPU6050<TEMPLATE_INPUTS>
   setRegister( 0x1A, DLPF_CFG <= 6 ? DLPF_CFG : 0x00 ); 
   
   setRegister( 0x1B, FS_SEL == 1 ? 0x08   :
-					 FS_SEL == 2 ? 0x10   :
-					 FS_SEL == 3 ? 0x18   :
-								   0x00   );
-										 
+                     FS_SEL == 2 ? 0x10   :
+                     FS_SEL == 3 ? 0x18   :
+                                   0x00   );
+                                         
   setRegister( 0x1C, AFS_SEL == 1 ? 0x08  :
-					 AFS_SEL == 2 ? 0x10  :
-					 AFS_SEL == 3 ? 0x18  :
-									0x00  );
+                     AFS_SEL == 2 ? 0x10  :
+                     AFS_SEL == 3 ? 0x18  :
+                                    0x00  );
 }
 
 //---------------- Raw measurements ------------------
@@ -181,14 +181,14 @@ template<TEMPLATE_TYPE_INPUTS>
 void basicMPU6050<TEMPLATE_INPUTS>
 ::setBias() {    
   for( int count = 0; count < N_BIAS; count += 1 ) { 
-	int gyro[] = { rawGx(), rawGy(), rawGz() };
-	for( int index = 0; index < N_AXIS; index += 1 ) {
-	  mean[index] += float( gyro[index] ); 
-	} 
+    int gyro[] = { rawGx(), rawGy(), rawGz() };
+    for( int index = 0; index < N_AXIS; index += 1 ) {
+      mean[index] += float( gyro[index] ); 
+    } 
   }
   
   for( int index = 0; index < N_AXIS; index += 1 ) {
-	mean[index] *= MEAN; 
+    mean[index] *= MEAN; 
   }    
 }
 
@@ -198,8 +198,8 @@ void basicMPU6050<TEMPLATE_INPUTS>
   const float BAND_SQ = GYRO_BAND*GYRO_BAND;
   
   float dw[N_AXIS] = { rawGx() - mean[0] ,
-					   rawGy() - mean[1] , 
-					   rawGz() - mean[2] };
+                       rawGy() - mean[1] , 
+                       rawGz() - mean[2] };
   
   float mag = dw[0]*dw[0] + dw[1]*dw[1] + dw[2]*dw[2];
   float gain = BAND_SQ/( BAND_SQ + var + mag );
@@ -207,6 +207,6 @@ void basicMPU6050<TEMPLATE_INPUTS>
   var += mag + (gain - 1)*var;
 
   for( int index = 0; index < N_AXIS; index += 1 ) {  
-	mean[index] += dw[index]*gain * MEAN;
+    mean[index] += dw[index]*gain * MEAN;
   }
 }

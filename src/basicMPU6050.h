@@ -4,36 +4,82 @@
 #ifndef basicMPU6050_h
 #define basicMPU6050_h
 
-//---------------- Default settings ------------------ 
-
-#define 		    DEFAULT_BAND 	16					// Standard deviation of gyro
-#define 		    DEFAULT_COUNT 	10000				// Samples of gyro average
-#define 			DEFAULT_LP		6					// Low pass filter setting [0 to 6]
-constexpr float 	DEFAULT_SCALE = 1;					// Scale of Gyro and Accelerometer
+//------------------ Common terms -------------------- 
 
 // Sensor values
-#define 		    MPU_ADDRESS     0x68				
-#define 		    ACCEL_LBS_0     16384.0
-#define 		    N_AXIS          3
+#define             MPU_ADDRESS     0x68                
+#define             ACCEL_LBS_0     16384.0
+#define             N_AXIS          3
 
-// Template parameters
-#include "templates.tpp"
+//---------------- Default settings ------------------
+
+constexpr float     DEFAULT_SCALE = 1;                  // Default scale of Gyro and Accelerometer
+
+#define TEMPLATE_TYPE_DEFAULT                       \
+    uint8_t         DLPF_CFG    = 6                 ,   /* Low pass filter setting - 0 to 6         */  \
+    uint8_t         FS_SEL      = 0                 ,   /* Gyro sensitivity - 0 to 3                */  \
+    uint8_t         AFS_SEL     = 0                 ,   /* Accelerometer sensitivity - 0 to 3       */  \
+    int16_t         AX_OFS      = 0                 ,   /* Accel X offset                           */  \
+    int16_t         AY_OFS      = 0                 ,   /* Accel Y offset                           */  \
+    int16_t         AZ_OFS      = 0                 ,   /* Accel Z offset                           */  \
+    const float*    AX_S        = &DEFAULT_SCALE    ,   /* Accel X Multiplier                       */  \
+    const float*    AY_S        = &DEFAULT_SCALE    ,   /* Accel Y Multiplier                       */  \
+    const float*    AZ_S        = &DEFAULT_SCALE    ,   /* Accel Z Multiplier                       */  \
+    const float*    GX_S        = &DEFAULT_SCALE    ,   /* Gyro X Multiplier                        */  \
+    const float*    GY_S        = &DEFAULT_SCALE    ,   /* Gyro Y Multiplier                        */  \
+    const float*    GZ_S        = &DEFAULT_SCALE    ,   /* Gyro Z Multiplier                        */  \
+    uint16_t        GYRO_BAND   = 16                ,   /* Standard deviation of gyro signals       */  \
+    uint32_t        N_BIAS      = 10000                 /* Samples of average used to calibrate gyro*/  
+
+//--------------- Template Parameters ----------------
+    
+#define TEMPLATE_TYPE_INPUTS                        \
+    uint8_t         DLPF_CFG                        ,\
+    uint8_t         FS_SEL                          ,\
+    uint8_t         AFS_SEL                         ,\
+    int16_t         AX_OFS                          ,\
+    int16_t         AY_OFS                          ,\
+    int16_t         AZ_OFS                          ,\
+    const float*    AX_S                            ,\
+    const float*    AY_S                            ,\
+    const float*    AZ_S                            ,\
+    const float*    GX_S                            ,\
+    const float*    GY_S                            ,\
+    const float*    GZ_S                            ,\
+    uint16_t        GYRO_BAND                       ,\
+    uint32_t        N_BIAS                          
+
+#define TEMPLATE_INPUTS                             \
+                    DLPF_CFG                        ,\
+                    FS_SEL                          ,\
+                    AFS_SEL                         ,\
+                    AX_OFS                          ,\
+                    AY_OFS                          ,\
+                    AZ_OFS                          ,\
+                    AX_S                            ,\
+                    AY_S                            ,\
+                    AZ_S                            ,\
+                    GX_S                            ,\
+                    GY_S                            ,\
+                    GZ_S                            ,\
+                    GYRO_BAND                       ,\
+                    N_BIAS                           
 
 //---------------- Class definition ------------------ 
-		
+        
 template <TEMPLATE_TYPE_DEFAULT>
 class basicMPU6050 {
    private:       
     float mean[N_AXIS] = {0};    
     float var = 0;
     
-	// Common settings
+    // Common settings
     static const float ACCEL_LBS;
     static const float GYRO_LBS;
     static const float MEAN;
-	
-	// I2C communication
-	void setRegister(uint8_t, uint8_t);
+    
+    // I2C communication
+    void setRegister(uint8_t, uint8_t);
     void readRegister( uint8_t );
     int readWire();
 
@@ -69,7 +115,7 @@ class basicMPU6050 {
     float gx();
     float gy();
     float gz();
-	
+    
     //-- Gyro bias estimate        
     void setBias();
     void updateBias();
