@@ -11,11 +11,11 @@
 #define             ACCEL_LBS_0     16384.0
 #define             N_AXIS          3
 
-//---------------- Default settings ------------------
+//---------------- Default settings ------------------ [ No characters after backlash! ]
 
 constexpr float     DEFAULT_SCALE = 1;                  // Default scale of Gyro and Accelerometer
 
-#define TEMPLATE_TYPE_DEFAULT                       \
+#define TEMPLATE_DEFAULT                       		\
     uint8_t         DLPF_CFG    = 6                 ,   /* Low pass filter setting - 0 to 6         */  \
     uint8_t         FS_SEL      = 0                 ,   /* Gyro sensitivity - 0 to 3                */  \
     uint8_t         AFS_SEL     = 0                 ,   /* Accelerometer sensitivity - 0 to 3       */  \
@@ -31,9 +31,9 @@ constexpr float     DEFAULT_SCALE = 1;                  // Default scale of Gyro
     uint16_t        GYRO_BAND   = 16                ,   /* Standard deviation of gyro signals       */  \
     uint32_t        N_BIAS      = 10000                 /* Samples of average used to calibrate gyro*/  
 
-//--------------- Template Parameters ----------------
+//--------------- Template Parameters ---------------- [ No characters after backlash! ]
     
-#define TEMPLATE_TYPE_INPUTS                        \
+#define TEMPLATE_TYPE		                        \
     uint8_t         DLPF_CFG                        ,\
     uint8_t         FS_SEL                          ,\
     uint8_t         AFS_SEL                         ,\
@@ -67,7 +67,7 @@ constexpr float     DEFAULT_SCALE = 1;                  // Default scale of Gyro
 
 //---------------- Class definition ------------------ 
         
-template <TEMPLATE_TYPE_DEFAULT>
+template <TEMPLATE_DEFAULT>
 class basicMPU6050 {
    private:       
     float mean[N_AXIS] = {0};    
