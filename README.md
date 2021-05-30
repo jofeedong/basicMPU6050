@@ -1,7 +1,4 @@
 # basicMPU6050
-### Author: XXXmags
-### Contact: https://www.rcgroups.com/forums/member.php?u=189488
-
 The purpose of this library is to make a basic and lightweight interface for the MPU6050. It can do the following:
 - Configure the inbuilt low pass filter 
 - Configure the sensitivity of the accelerometer and gyro
@@ -13,3 +10,6 @@ The library includes two functions to calibrate the gyro and remove bias. The fi
 The second function is designed to update the averages. It updates the values with a moving average and the gain is controlled by something akin to a kalman filter. By polling this function one can correct for drift in the gyro bias.
 
 By combining these two functions one can obtain stable and consistent gyro outputs. The accelerometer needs to calibrated manually by correcting for bias and scale. 
+
+See this link for the information on the registers of the MPU6050: 
+[MPU 6050 register map](https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Register-Map1.pdf)
